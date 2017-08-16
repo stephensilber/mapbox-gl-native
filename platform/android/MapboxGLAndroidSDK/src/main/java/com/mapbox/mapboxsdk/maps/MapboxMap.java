@@ -1172,8 +1172,8 @@ public final class MapboxMap {
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
    * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
    * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
-   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
-   * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a
+   * SymbolLayer with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
    */
   @NonNull
@@ -1196,8 +1196,8 @@ public final class MapboxMap {
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
    * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
    * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
-   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
-   * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a
+   * SymbolLayer with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
    */
   @Deprecated
@@ -1220,8 +1220,8 @@ public final class MapboxMap {
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
    * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
    * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
-   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
-   * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a
+   * SymbolLayer with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
    */
   @NonNull
@@ -1240,8 +1240,8 @@ public final class MapboxMap {
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
    * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
    * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
-   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
-   * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a
+   * SymbolLayer with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
    */
   @NonNull
@@ -2277,8 +2277,8 @@ public final class MapboxMap {
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
    * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
    * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
-   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
-   * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+   * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a
+   * SymbolLayer with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
    * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
    */
   @Deprecated

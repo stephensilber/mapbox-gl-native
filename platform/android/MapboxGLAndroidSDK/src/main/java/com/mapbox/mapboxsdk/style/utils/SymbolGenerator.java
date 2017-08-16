@@ -45,7 +45,7 @@ public final class SymbolGenerator {
    * @param drawableRes the resource id of the drawable used as base
    * @return the generated bitmap
    */
-  public static Bitmap generate(@IdRes int drawableRes){
+  public static Bitmap generate(@IdRes int drawableRes) {
     return BitmapFactory.decodeResource(Mapbox.getApplicationContext().getResources(), drawableRes);
   }
 }

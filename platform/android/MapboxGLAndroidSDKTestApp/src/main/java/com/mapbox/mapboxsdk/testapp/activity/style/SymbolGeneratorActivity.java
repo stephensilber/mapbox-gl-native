@@ -14,16 +14,12 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.mapboxsdk.style.utils.SymbolGenerator;
 import com.mapbox.mapboxsdk.testapp.R;
 import com.mapbox.services.commons.geojson.Feature;
-import com.mapbox.services.commons.geojson.FeatureCollection;
-import com.mapbox.services.commons.geojson.Point;
-import com.mapbox.services.commons.models.Position;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -85,8 +81,8 @@ public class SymbolGeneratorActivity extends AppCompatActivity implements OnMapR
           iconAllowOverlap(false)
         );
       mapboxMap.addLayer(layer);
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
+    } catch (MalformedURLException exception) {
+      Timber.e(exception);
     }
   }
 
