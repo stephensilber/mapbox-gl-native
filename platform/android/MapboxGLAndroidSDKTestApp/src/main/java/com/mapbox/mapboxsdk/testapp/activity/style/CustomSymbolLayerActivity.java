@@ -29,7 +29,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 /**
  * Test activity showcasing adding a sprite image and use it in a Symbol Layer
  */
-public class CustomSpriteActivity extends AppCompatActivity {
+public class CustomSymbolLayerActivity extends AppCompatActivity {
   private static final String CUSTOM_ICON = "custom-icon";
 
   private MapboxMap mapboxMap;
@@ -50,7 +50,7 @@ public class CustomSpriteActivity extends AppCompatActivity {
       public void onMapReady(@NonNull final MapboxMap map) {
         mapboxMap = map;
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setColorFilter(ContextCompat.getColor(CustomSpriteActivity.this, R.color.primary));
+        fab.setColorFilter(ContextCompat.getColor(CustomSymbolLayerActivity.this, R.color.primary));
         fab.setOnClickListener(new View.OnClickListener() {
           private Point point;
 

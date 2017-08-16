@@ -51,6 +51,7 @@
     <string name="activity_query_source_features">Query source features</string>
     <string name="activity_symbol_layer">Symbols</string>
     <string name="activity_add_symbol">Add Custom Symbol</string>
+    <string name="activity_generator_symbol">Generate Symbols from a View</string>
     <string name="activity_navigation_drawer">Android SDK View integration</string>
     <string name="activity_simple_map">Simple Map</string>
     <string name="activity_map_change">Map Change Events</string>
@@ -102,6 +103,7 @@
     <string name="description_data_driven_style">Use functions to change the map appearance</string>
     <string name="description_symbol_layer">Manipulate symbols at runtime</string>
     <string name="description_custom_symbol">Use a custom image in a Symbol Layer</string>
+    <string name="description_generator_symbol">Generate an image to be used as Symbol in a Symbol Layer</string>
     <string name="description_geojson_clustering">Use GeoJson sources and dynamic layers to cluster information</string>
     <string name="description_geojson_realtime">Use realtime GeoJSON data streams to move a symbol on your map</string>
     <string name="description_print">Shows how to print a map</string>
@@ -198,6 +200,7 @@
     <string name="default_tilt_value">0</string>
     <string name="tilt">Tilt</string>
     <string name="no_results">No Results</string>
+    <string name="change_icon_overlap">Change allowIconOverlap</string>
     <string name="change_intensity">Change intensity</string>
     <string name="change_anchor">Change Anchor</string>
     <string name="amount_of_markers">Amount of markers</string>
