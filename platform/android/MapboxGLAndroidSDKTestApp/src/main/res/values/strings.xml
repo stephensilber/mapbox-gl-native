@@ -50,7 +50,7 @@
     <string name="activity_query_rendered_features_box_highlight">Highlight features in box</string>
     <string name="activity_query_source_features">Query source features</string>
     <string name="activity_symbol_layer">Symbols</string>
-    <string name="activity_add_sprite">Add Custom Sprite</string>
+    <string name="activity_add_symbol">Add Custom Symbol</string>
     <string name="activity_navigation_drawer">Android SDK View integration</string>
     <string name="activity_simple_map">Simple Map</string>
     <string name="activity_map_change">Map Change Events</string>
@@ -101,7 +101,7 @@
     <string name="description_runtime_style">Adopt the map style on the fly</string>
     <string name="description_data_driven_style">Use functions to change the map appearance</string>
     <string name="description_symbol_layer">Manipulate symbols at runtime</string>
-    <string name="description_custom_sprite">Use a custom sprite in a Symbol Layer</string>
+    <string name="description_custom_symbol">Use a custom image in a Symbol Layer</string>
     <string name="description_geojson_clustering">Use GeoJson sources and dynamic layers to cluster information</string>
     <string name="description_geojson_realtime">Use realtime GeoJSON data streams to move a symbol on your map</string>
     <string name="description_print">Shows how to print a map</string>
