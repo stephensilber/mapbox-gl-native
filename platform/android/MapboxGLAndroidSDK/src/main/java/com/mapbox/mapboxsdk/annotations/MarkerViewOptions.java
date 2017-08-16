@@ -3,16 +3,27 @@ package com.mapbox.mapboxsdk.annotations;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import com.mapbox.mapboxsdk.exceptions.InvalidMarkerPositionException;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.style.layers.PropertyValue;
 
 /**
  * builder class for composing MarkerView objects.
  * <p>
  * Do not extend this class directly but extend {@link BaseMarkerViewOptions} instead.
  * </p>
+ * @deprecated Use {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator} in combination with
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
+ * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
+ * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
+ * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
+ * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
  */
+@Deprecated
 public class MarkerViewOptions extends BaseMarkerViewOptions<MarkerView, MarkerViewOptions> {
 
   private MarkerView marker;

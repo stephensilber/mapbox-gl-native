@@ -1,12 +1,15 @@
 package com.mapbox.mapboxsdk.annotations;
 
+import android.graphics.Bitmap;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.style.layers.PropertyValue;
 
 /**
  * MarkerView is an annotation that shows a {@link android.view.View} at a geographical location. The
@@ -24,7 +27,15 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
  * used with event listeners to bring up info windows. An {@link InfoWindow} is displayed by default
  * when either a title or snippet is provided.
  * </p>
+ * @deprecated Use {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator} in combination with
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
+ * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
+ * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
+ * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
+ * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
  */
+@Deprecated
 public class MarkerView extends Marker {
 
   private MarkerViewManager markerViewManager;

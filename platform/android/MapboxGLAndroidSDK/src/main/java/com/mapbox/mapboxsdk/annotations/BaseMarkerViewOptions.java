@@ -1,10 +1,14 @@
 package com.mapbox.mapboxsdk.annotations;
 
+import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.style.layers.PropertyValue;
 
 /**
  * Abstract builder class for composing custom MarkerView objects.
@@ -14,7 +18,15 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
  *
  * @param <U> Type of the marker view to be composed.
  * @param <T> Type of the builder to be used for composing.
+ * @deprecated Use {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator} in combination with
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
+ * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
+ * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
+ * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
+ * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
  */
+@Deprecated
 public abstract class BaseMarkerViewOptions<U extends MarkerView, T extends BaseMarkerViewOptions<U, T>>
   implements Parcelable {
 

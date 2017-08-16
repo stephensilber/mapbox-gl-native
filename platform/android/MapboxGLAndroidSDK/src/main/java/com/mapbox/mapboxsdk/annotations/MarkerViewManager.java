@@ -1,6 +1,7 @@
 package com.mapbox.mapboxsdk.annotations;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.SystemClock;
@@ -17,6 +18,7 @@ import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.style.layers.PropertyValue;
 import com.mapbox.mapboxsdk.utils.AnimatorUtils;
 
 import java.util.ArrayList;
@@ -30,7 +32,15 @@ import java.util.Map;
  * <p>
  * This class is responsible for managing a {@link MarkerView} item.
  * </p>
+ * @deprecated Use {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator} in combination with
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer} instead. Add the result from
+ * {@link com.mapbox.mapboxsdk.style.utils.SymbolGenerator#generate(View)} with
+ * {@link MapboxMap#addImage(String, Bitmap)} and link the id of the image with
+ * {@link com.mapbox.mapboxsdk.style.layers.PropertyFactory#iconImage(String)} when setting properties to a SymbolLayer
+ * with {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#setProperties(PropertyValue[])} or
+ * {@link com.mapbox.mapboxsdk.style.layers.SymbolLayer#withProperties(PropertyValue[])}.
  */
+@Deprecated
 public class MarkerViewManager implements MapView.OnMapChangedListener {
 
   private final ViewGroup markerViewContainer;
