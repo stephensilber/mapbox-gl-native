@@ -123,3 +123,48 @@ NS_INLINE MGLRadianCoordinate2D MGLRadianCoordinateAtDistanceFacingDirection(MGL
                                                          cos(distance) - sin(coordinate.latitude) * sin(otherLatitude));
     return MGLRadianCoordinate2DMake(otherLatitude, otherLongitude);
 }
+
+/** Returns the coordinate at a given fraction between two coordinates.
+ 
+ @param origin Origin `CLLocationCoordinate2D`.
+ @param destination Destination `CLLocationCoordinate2D`.
+ @param fraction Fraction between coordinates (0 = origin, 0.5 = middle, 1 = destination).
+ 
+ @return A coordinate at given fraction. */
+// Ported from http://www.movable-type.co.uk/scripts/latlong.html
+NS_INLINE CLLocationCoordinate2D MGLCLCoordinateAtFraction(CLLocationCoordinate2D origin, CLLocationCoordinate2D destination, double fraction) {
+    double φ1 = MGLRadiansFromDegrees(origin.latitude);
+    double λ1 = MGLRadiansFromDegrees(origin.longitude);
+    
+    double φ2 = MGLRadiansFromDegrees(destination.latitude);
+    double λ2 = MGLRadiansFromDegrees(destination.longitude);
+    double sinφ1 = sin(φ1);
+    double cosφ1 = cos(φ1);
+    double sinλ1 = sin(λ1);
+    double cosλ1 = cos(λ1);
+    double sinφ2 = sin(φ2);
+    double cosφ2 = cos(φ2);
+    double sinλ2 = sin(λ2);
+    double cosλ2 = cos(λ2);
+    
+    // distance between points
+    double Δφ = φ2 - φ1;
+    double Δλ = λ2 - λ1;
+    double a = sin(Δφ/2) * sin(Δφ/2) + cos(φ1) * cos(φ2) * sin(Δλ/2) * sin(Δλ/2);
+    double δ = 2 * atan2(sqrt(a), sqrt(1-a));
+    
+    double A = sin((1-fraction)*δ) / sin(δ);
+    double B = sin(fraction*δ) / sin(δ);
+    
+    double x = A * cosφ1 * cosλ1 + B * cosφ2 * cosλ2;
+    double y = A * cosφ1 * sinλ1 + B * cosφ2 * sinλ2;
+    double z = A * sinφ1 + B * sinφ2;
+    
+    double φ3 = atan2(z, sqrt(x*x + y*y));
+    double λ3 = atan2(y, x);
+    
+    CLLocationDegrees latitude = MGLDegreesFromRadians(φ3);
+    CLLocationDegrees longitude = fmod(MGLDegreesFromRadians(λ3), 360 - 180);
+    
+    return CLLocationCoordinate2DMake(latitude, longitude);
+}

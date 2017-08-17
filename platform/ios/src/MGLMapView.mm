@@ -2667,8 +2667,21 @@ public:
     {
         latLngs.push_back({coordinates[i].latitude, coordinates[i].longitude});
     }
+    
+    BOOL boundariesCrossDateTime = NO;
+    if (count == 4 && coordinates[1].longitude > 0 && coordinates[3].longitude < 0) {
+        boundariesCrossDateTime = YES;
+        latLngs = [self normalizeCoordinatesForDateTimeChangeSW:coordinates[1] ne:coordinates[3]];
+        
+    }
 
     mbgl::CameraOptions cameraOptions = _mbglMap->cameraForLatLngs(latLngs, padding);
+    
+    if (boundariesCrossDateTime) {
+        CLLocationCoordinate2D centerCoordinate = MGLCLCoordinateAtFraction(coordinates[1], coordinates[3], 0.5);
+        cameraOptions.center = MGLLatLngFromLocationCoordinate2D(centerCoordinate);
+    }
+    
     if (direction >= 0)
     {
         cameraOptions.angle = MGLRadiansFromDegrees(-direction);
@@ -2705,6 +2718,18 @@ public:
     _mbglMap->cancelTransitions();
     _mbglMap->easeTo(cameraOptions, animationOptions);
     [self didChangeValueForKey:@"visibleCoordinateBounds"];
+}
+
+- (std::vector<mbgl::LatLng>)normalizeCoordinatesForDateTimeChangeSW:(CLLocationCoordinate2D)sw ne:(CLLocationCoordinate2D)ne
+{
+    CLLocationDegrees delta = (180 - fabs(sw.longitude)) + (180 - fabs(ne.longitude));
+    CLLocationCoordinate2D swap = sw;
+    sw = CLLocationCoordinate2DMake(ne.latitude, sw.longitude - delta);
+    ne = swap;
+    
+    std::vector<mbgl::LatLng> latLngs = { {ne.latitude, sw.longitude}, {sw.latitude, sw.longitude}, {sw.latitude, ne.longitude}, {ne.latitude, ne.longitude} };
+    
+    return latLngs;
 }
 
 + (NS_SET_OF(NSString *) *)keyPathsForValuesAffectingDirection
