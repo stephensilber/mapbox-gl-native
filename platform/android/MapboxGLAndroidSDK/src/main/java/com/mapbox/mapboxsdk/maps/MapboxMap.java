@@ -1087,6 +1087,7 @@ public final class MapboxMap {
    * @param options the object containing the style url
    */
   private void setStyleUrl(@NonNull MapboxMapOptions options) {
+    Timber.e("TBRUN SETTING STYLE");
     String style = options.getStyle();
     if (!TextUtils.isEmpty(style)) {
       setStyleUrl(style, null);
@@ -1930,9 +1931,22 @@ public final class MapboxMap {
    * @return the list of feature
    */
   @NonNull
+  public List<Feature> queryRenderedFeatures(@NonNull PointF coordinates, boolean withGeometry, @Nullable String...
+    layerIds) {
+    return nativeMapView.queryRenderedFeatures(coordinates, layerIds, null, withGeometry);
+  }
+
+  /**
+   * Queries the map for rendered features
+   *
+   * @param coordinates the point to query
+   * @param layerIds    optionally - only query these layers
+   * @return the list of feature
+   */
+  @NonNull
   public List<Feature> queryRenderedFeatures(@NonNull PointF coordinates, @Nullable String...
     layerIds) {
-    return nativeMapView.queryRenderedFeatures(coordinates, layerIds, null);
+    return nativeMapView.queryRenderedFeatures(coordinates, layerIds, null, true);
   }
 
   /**
@@ -1947,7 +1961,7 @@ public final class MapboxMap {
   public List<Feature> queryRenderedFeatures(@NonNull PointF coordinates,
                                              @Nullable Filter.Statement filter,
                                              @Nullable String... layerIds) {
-    return nativeMapView.queryRenderedFeatures(coordinates, layerIds, filter);
+    return nativeMapView.queryRenderedFeatures(coordinates, layerIds, filter, true);
   }
 
   /**
