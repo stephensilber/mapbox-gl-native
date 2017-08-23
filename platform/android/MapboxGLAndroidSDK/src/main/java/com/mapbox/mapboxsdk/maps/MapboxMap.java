@@ -59,7 +59,6 @@ import timber.log.Timber;
  * Note: Similar to a View object, a MapboxMap should only be read and modified from the main thread.
  * </p>
  */
-@UiThread
 public final class MapboxMap {
 
   private final NativeMapView nativeMapView;
@@ -100,7 +99,6 @@ public final class MapboxMap {
     setDebugActive(options.getDebugActive());
     setApiBaseUrl(options);
     setStyleUrl(options);
-    setPrefetchesTiles(options);
   }
 
   /**
@@ -211,6 +209,7 @@ public final class MapboxMap {
    *
    * @return Duration in milliseconds
    */
+  @UiThread
   public long getTransitionDuration() {
     return nativeMapView.getTransitionDuration();
   }
@@ -220,6 +219,7 @@ public final class MapboxMap {
    *
    * @param durationMs Duration in milliseconds
    */
+  @UiThread
   public void setTransitionDuration(long durationMs) {
     nativeMapView.setTransitionDuration(durationMs);
   }
@@ -232,6 +232,7 @@ public final class MapboxMap {
    *
    * @return Delay in milliseconds
    */
+  @UiThread
   public long getTransitionDelay() {
     return nativeMapView.getTransitionDelay();
   }
@@ -241,37 +242,9 @@ public final class MapboxMap {
    *
    * @param delayMs Delay in milliseconds
    */
+  @UiThread
   public void setTransitionDelay(long delayMs) {
     nativeMapView.setTransitionDelay(delayMs);
-  }
-
-  /**
-   * Sets tile pre-fetching from MapboxOptions.
-   *
-   * @param options the options object
-   */
-  private void setPrefetchesTiles(@NonNull MapboxMapOptions options) {
-    setPrefetchesTiles(options.getPrefetchesTiles());
-  }
-
-  /**
-   * Enable or disable tile pre-fetching. Pre-fetching makes sure that a low-resolution
-   * tile is rendered as soon as possible at the expense of a little bandwidth.
-   *
-   * @param enable true to enable
-   */
-  public void setPrefetchesTiles(boolean enable) {
-    nativeMapView.setPrefetchesTiles(enable);
-  }
-
-  /**
-   * Check whether tile pre-fetching is enabled or not.
-   *
-   * @return true if enabled
-   * @see MapboxMap#setPrefetchesTiles(boolean)
-   */
-  public boolean getPrefetchesTiles() {
-    return nativeMapView.getPrefetchesTiles();
   }
 
   /**
@@ -279,6 +252,7 @@ public final class MapboxMap {
    *
    * @return all the layers in the current style
    */
+  @UiThread
   public List<Layer> getLayers() {
     return nativeMapView.getLayers();
   }
@@ -290,6 +264,7 @@ public final class MapboxMap {
    * @return the layer, if present in the style
    */
   @Nullable
+  @UiThread
   public Layer getLayer(@NonNull String layerId) {
     return nativeMapView.getLayer(layerId);
   }
@@ -302,12 +277,13 @@ public final class MapboxMap {
    * @return the casted Layer, null if another type
    */
   @Nullable
+  @UiThread
   public <T extends Layer> T getLayerAs(@NonNull String layerId) {
     try {
       // noinspection unchecked
       return (T) nativeMapView.getLayer(layerId);
     } catch (ClassCastException exception) {
-      Timber.e(exception, "Layer: %s is a different type: ", layerId);
+      Timber.e(String.format("Layer: %s is a different type: %s", layerId, exception));
       return null;
     }
   }
@@ -317,6 +293,7 @@ public final class MapboxMap {
    *
    * @param layer the layer to add
    */
+  @UiThread
   public void addLayer(@NonNull Layer layer) {
     nativeMapView.addLayer(layer);
   }
@@ -327,6 +304,7 @@ public final class MapboxMap {
    * @param layer the layer to add
    * @param below the layer id to add this layer before
    */
+  @UiThread
   public void addLayerBelow(@NonNull Layer layer, @NonNull String below) {
     nativeMapView.addLayerBelow(layer, below);
   }
@@ -337,6 +315,7 @@ public final class MapboxMap {
    * @param layer the layer to add
    * @param above the layer id to add this layer above
    */
+  @UiThread
   public void addLayerAbove(@NonNull Layer layer, @NonNull String above) {
     nativeMapView.addLayerAbove(layer, above);
   }
@@ -348,6 +327,7 @@ public final class MapboxMap {
    * @param layer the layer to add
    * @param index the index to insert the layer at
    */
+  @UiThread
   public void addLayerAt(@NonNull Layer layer, @IntRange(from = 0) int index) {
     nativeMapView.addLayerAt(layer, index);
   }
@@ -358,6 +338,7 @@ public final class MapboxMap {
    * @param layerId the layer to remove
    * @return the removed layer or null if not found
    */
+  @UiThread
   @Nullable
   public Layer removeLayer(@NonNull String layerId) {
     return nativeMapView.removeLayer(layerId);
@@ -369,6 +350,7 @@ public final class MapboxMap {
    * @param layer the layer to remove
    * @return the layer
    */
+  @UiThread
   @Nullable
   public Layer removeLayer(@NonNull Layer layer) {
     return nativeMapView.removeLayer(layer);
@@ -380,6 +362,7 @@ public final class MapboxMap {
    * @param index the layer index
    * @return the removed layer or null if not found
    */
+  @UiThread
   @Nullable
   public Layer removeLayerAt(@IntRange(from = 0) int index) {
     return nativeMapView.removeLayerAt(index);
@@ -390,6 +373,7 @@ public final class MapboxMap {
    *
    * @return all the sources in the current style
    */
+  @UiThread
   public List<Source> getSources() {
     return nativeMapView.getSources();
   }
@@ -401,6 +385,7 @@ public final class MapboxMap {
    * @return the source if present in the current style
    */
   @Nullable
+  @UiThread
   public Source getSource(@NonNull String sourceId) {
     return nativeMapView.getSource(sourceId);
   }
@@ -413,12 +398,13 @@ public final class MapboxMap {
    * @return the casted Source, null if another type
    */
   @Nullable
+  @UiThread
   public <T extends Source> T getSourceAs(@NonNull String sourceId) {
     try {
       // noinspection unchecked
       return (T) nativeMapView.getSource(sourceId);
     } catch (ClassCastException exception) {
-      Timber.e(exception, "Source: %s is a different type: ", sourceId);
+      Timber.e(String.format("Source: %s is a different type: %s", sourceId, exception));
       return null;
     }
   }
@@ -428,6 +414,7 @@ public final class MapboxMap {
    *
    * @param source the source to add
    */
+  @UiThread
   public void addSource(@NonNull Source source) {
     nativeMapView.addSource(source);
   }
@@ -438,6 +425,7 @@ public final class MapboxMap {
    * @param sourceId the source to remove
    * @return the source handle or null if the source was not present
    */
+  @UiThread
   @Nullable
   public Source removeSource(@NonNull String sourceId) {
     return nativeMapView.removeSource(sourceId);
@@ -449,6 +437,7 @@ public final class MapboxMap {
    * @param source the source to remove
    * @return the source
    */
+  @UiThread
   @Nullable
   public Source removeSource(@NonNull Source source) {
     return nativeMapView.removeSource(source);
@@ -460,6 +449,7 @@ public final class MapboxMap {
    * @param name  the name of the image
    * @param image the pre-multiplied Bitmap
    */
+  @UiThread
   public void addImage(@NonNull String name, @NonNull Bitmap image) {
     nativeMapView.addImage(name, image);
   }
@@ -469,12 +459,9 @@ public final class MapboxMap {
    *
    * @param name the name of the image to remove
    */
+  @UiThread
   public void removeImage(String name) {
     nativeMapView.removeImage(name);
-  }
-
-  public Bitmap getImage(@NonNull String name) {
-    return nativeMapView.getImage(name);
   }
 
   //
@@ -488,6 +475,7 @@ public final class MapboxMap {
    *
    * @param minZoom The new minimum zoom level.
    */
+  @UiThread
   public void setMinZoomPreference(
     @FloatRange(from = MapboxConstants.MINIMUM_ZOOM, to = MapboxConstants.MAXIMUM_ZOOM) double minZoom) {
     transform.setMinZoom(minZoom);
@@ -495,11 +483,12 @@ public final class MapboxMap {
 
   /**
    * <p>
-   * Gets the minimum zoom level the map can be displayed at.
+   * Gets the maximum zoom level the map can be displayed at.
    * </p>
    *
    * @return The minimum zoom level.
    */
+  @UiThread
   public double getMinZoomLevel() {
     return transform.getMinZoom();
   }
@@ -512,11 +501,10 @@ public final class MapboxMap {
    * <p>
    * Sets the maximum zoom level the map can be displayed at.
    * </p>
-   * <p>
-   *   The default maximum zoomn level is 22. The upper bound for this value is 25.5.
-   * </p>
+   *
    * @param maxZoom The new maximum zoom level.
    */
+  @UiThread
   public void setMaxZoomPreference(@FloatRange(from = MapboxConstants.MINIMUM_ZOOM,
     to = MapboxConstants.MAXIMUM_ZOOM) double maxZoom) {
     transform.setMaxZoom(maxZoom);
@@ -529,6 +517,7 @@ public final class MapboxMap {
    *
    * @return The maximum zoom level.
    */
+  @UiThread
   public double getMaxZoomLevel() {
     return transform.getMaxZoom();
   }
@@ -554,10 +543,7 @@ public final class MapboxMap {
    * Gets the tracking interface settings for the map.
    *
    * @return the TrackingSettings asssociated with this map
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
   public TrackingSettings getTrackingSettings() {
     return trackingSettings;
   }
@@ -570,10 +556,7 @@ public final class MapboxMap {
    * Gets the settings of the user location for the map.
    *
    * @return the MyLocationViewSettings associated with this map
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
   public MyLocationViewSettings getMyLocationViewSettings() {
     return myLocationViewSettings;
   }
@@ -649,6 +632,7 @@ public final class MapboxMap {
    *
    * @param update The change that should be applied to the camera.
    */
+  @UiThread
   public final void moveCamera(CameraUpdate update) {
     moveCamera(update, null);
   }
@@ -661,6 +645,7 @@ public final class MapboxMap {
    * @param update   The change that should be applied to the camera
    * @param callback the callback to be invoked when an animation finishes or is canceled
    */
+  @UiThread
   public final void moveCamera(final CameraUpdate update, final MapboxMap.CancelableCallback callback) {
     new Handler().post(new Runnable() {
       @Override
@@ -681,6 +666,7 @@ public final class MapboxMap {
    * @param update The change that should be applied to the camera.
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void easeCamera(CameraUpdate update) {
     easeCamera(update, MapboxConstants.ANIMATION_DURATION);
   }
@@ -695,6 +681,7 @@ public final class MapboxMap {
    *                   positive, otherwise an IllegalArgumentException will be thrown.
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void easeCamera(CameraUpdate update, int durationMs) {
     easeCamera(update, durationMs, null);
   }
@@ -718,6 +705,7 @@ public final class MapboxMap {
    *                   Do not update or ease the camera from within onCancel().
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void easeCamera(CameraUpdate update, int durationMs, final MapboxMap.CancelableCallback callback) {
     easeCamera(update, durationMs, true, callback);
   }
@@ -736,6 +724,7 @@ public final class MapboxMap {
    *                           positive, otherwise an IllegalArgumentException will be thrown.
    * @param easingInterpolator True for easing interpolator, false for linear.
    */
+  @UiThread
   public final void easeCamera(CameraUpdate update, int durationMs, boolean easingInterpolator) {
     easeCamera(update, durationMs, easingInterpolator, null);
   }
@@ -761,6 +750,7 @@ public final class MapboxMap {
    *                           by a later camera movement or a user gesture, onCancel() will be called.
    *                           Do not update or ease the camera from within onCancel().
    */
+  @UiThread
   public final void easeCamera(final CameraUpdate update, final int durationMs, final boolean easingInterpolator,
                                final MapboxMap.CancelableCallback callback) {
     easeCamera(update, durationMs, easingInterpolator, callback, false);
@@ -788,6 +778,7 @@ public final class MapboxMap {
    *                           Do not update or ease the camera from within onCancel().
    * @param isDismissable      true will allow animated camera changes dismiss a tracking mode.
    */
+  @UiThread
   public final void easeCamera(final CameraUpdate update, final int durationMs, final boolean easingInterpolator,
                                final MapboxMap.CancelableCallback callback, final boolean isDismissable) {
     new Handler().post(new Runnable() {
@@ -807,6 +798,7 @@ public final class MapboxMap {
    * @param update The change that should be applied to the camera.
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void animateCamera(CameraUpdate update) {
     animateCamera(update, MapboxConstants.ANIMATION_DURATION, null);
   }
@@ -823,6 +815,7 @@ public final class MapboxMap {
    *                 called. Do not update or animate the camera from within onCancel().
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void animateCamera(CameraUpdate update, MapboxMap.CancelableCallback callback) {
     animateCamera(update, MapboxConstants.ANIMATION_DURATION, callback);
   }
@@ -838,6 +831,7 @@ public final class MapboxMap {
    *                   positive, otherwise an IllegalArgumentException will be thrown.
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void animateCamera(CameraUpdate update, int durationMs) {
     animateCamera(update, durationMs, null);
   }
@@ -860,6 +854,7 @@ public final class MapboxMap {
    *                   isn't required, leave it as null.
    * @see com.mapbox.mapboxsdk.camera.CameraUpdateFactory for a set of updates.
    */
+  @UiThread
   public final void animateCamera(final CameraUpdate update, final int durationMs,
                                   final MapboxMap.CancelableCallback callback) {
     new Handler().post(new Runnable() {
@@ -930,6 +925,7 @@ public final class MapboxMap {
    *
    * @return If true, map debug information is currently shown.
    */
+  @UiThread
   public boolean isDebugActive() {
     return nativeMapView.getDebug();
   }
@@ -942,6 +938,7 @@ public final class MapboxMap {
    *
    * @param debugActive If true, map debug information is shown.
    */
+  @UiThread
   public void setDebugActive(boolean debugActive) {
     nativeMapView.setDebug(debugActive);
   }
@@ -955,6 +952,7 @@ public final class MapboxMap {
    *
    * @see #isDebugActive()
    */
+  @UiThread
   public void cycleDebugOptions() {
     nativeMapView.cycleDebugOptions();
   }
@@ -1004,6 +1002,7 @@ public final class MapboxMap {
    * @param url The URL of the map style
    * @see Style
    */
+  @UiThread
   public void setStyleUrl(@NonNull String url) {
     setStyleUrl(url, null);
   }
@@ -1036,6 +1035,7 @@ public final class MapboxMap {
    * @param callback The callback that is invoked when the style has loaded.
    * @see Style
    */
+  @UiThread
   public void setStyleUrl(@NonNull final String url, @Nullable final OnStyleLoadedListener callback) {
     if (callback != null) {
       nativeMapView.addOnMapChangedListener(new MapView.OnMapChangedListener() {
@@ -1067,6 +1067,7 @@ public final class MapboxMap {
    * @param style The bundled style.
    * @see Style
    */
+  @UiThread
   public void setStyle(@Style.StyleUrl String style) {
     setStyleUrl(style);
   }
@@ -1083,6 +1084,7 @@ public final class MapboxMap {
    * @param callback The callback to be invoked when the style has finished loading
    * @see Style
    */
+  @UiThread
   public void setStyle(@Style.StyleUrl String style, @Nullable OnStyleLoadedListener callback) {
     setStyleUrl(style, callback);
   }
@@ -1100,34 +1102,14 @@ public final class MapboxMap {
   }
 
   /**
-   * Returns the map style url currently displayed in the map view.
+   * Returns the map style currently displayed in the map view.
    *
    * @return The URL of the map style
    */
+  @UiThread
   @Nullable
   public String getStyleUrl() {
     return nativeMapView.getStyleUrl();
-  }
-
-  /**
-   * Loads a new map style from a json string.
-   * <p>
-   * If the style fails to load or an invalid style URL is set, the map view will become blank.
-   * An error message will be logged in the Android logcat and {@link MapView#DID_FAIL_LOADING_MAP} event will be
-   * sent.
-   * </p>
-   */
-  public void setStyleJson(@NonNull String styleJson) {
-    nativeMapView.setStyleJson(styleJson);
-  }
-
-  /**
-   * Returns the map style json currently displayed in the map view.
-   *
-   * @return The json of the map style
-   */
-  public String getStyleJson() {
-    return nativeMapView.getStyleJson();
   }
 
   //
@@ -1144,6 +1126,7 @@ public final class MapboxMap {
    * @param markerOptions A marker options object that defines how to render the marker
    * @return The {@code Marker} that was added to the map
    */
+  @UiThread
   @NonNull
   public Marker addMarker(@NonNull MarkerOptions markerOptions) {
     return annotationManager.addMarker(markerOptions, this);
@@ -1159,6 +1142,7 @@ public final class MapboxMap {
    * @param markerOptions A marker options object that defines how to render the marker
    * @return The {@code Marker} that was added to the map
    */
+  @UiThread
   @NonNull
   public Marker addMarker(@NonNull BaseMarkerOptions markerOptions) {
     return annotationManager.addMarker(markerOptions, this);
@@ -1174,6 +1158,7 @@ public final class MapboxMap {
    * @param markerOptions A marker options object that defines how to render the marker
    * @return The {@code Marker} that was added to the map
    */
+  @UiThread
   @NonNull
   public MarkerView addMarker(@NonNull BaseMarkerViewOptions markerOptions) {
     return annotationManager.addMarker(markerOptions, this, null);
@@ -1190,6 +1175,7 @@ public final class MapboxMap {
    * @param onMarkerViewAddedListener Callback invoked when the View has been added to the map
    * @return The {@code Marker} that was added to the map
    */
+  @UiThread
   @NonNull
   public MarkerView addMarker(@NonNull BaseMarkerViewOptions markerOptions,
                               final MarkerViewManager.OnMarkerViewAddedListener onMarkerViewAddedListener) {
@@ -1206,6 +1192,7 @@ public final class MapboxMap {
    * @param markerViewOptions A list of markerView options objects that defines how to render the markers
    * @return A list of the {@code MarkerView}s that were added to the map
    */
+  @UiThread
   @NonNull
   public List<MarkerView> addMarkerViews(@NonNull List<? extends
     BaseMarkerViewOptions> markerViewOptions) {
@@ -1218,6 +1205,7 @@ public final class MapboxMap {
    * @param rect the rectangular area on the map to query for markerViews
    * @return A list of the markerViews that were found in the rectangle
    */
+  @UiThread
   @NonNull
   public List<MarkerView> getMarkerViewsInRect(@NonNull RectF rect) {
     return annotationManager.getMarkerViewsInRect(rect);
@@ -1233,6 +1221,7 @@ public final class MapboxMap {
    * @param markerOptionsList A list of marker options objects that defines how to render the markers
    * @return A list of the {@code Marker}s that were added to the map
    */
+  @UiThread
   @NonNull
   public List<Marker> addMarkers(@NonNull List<? extends
     BaseMarkerOptions> markerOptionsList) {
@@ -1246,8 +1235,9 @@ public final class MapboxMap {
    *
    * @param updatedMarker An updated marker object
    */
+  @UiThread
   public void updateMarker(@NonNull Marker updatedMarker) {
-    annotationManager.updateMarker(updatedMarker, this);
+    annotationManager.updateMarker(updatedMarker);
   }
 
   /**
@@ -1256,6 +1246,7 @@ public final class MapboxMap {
    * @param polylineOptions A polyline options object that defines how to render the polyline
    * @return The {@code Polyine} that was added to the map
    */
+  @UiThread
   @NonNull
   public Polyline addPolyline(@NonNull PolylineOptions polylineOptions) {
     return annotationManager.addPolyline(polylineOptions, this);
@@ -1267,6 +1258,7 @@ public final class MapboxMap {
    * @param polylineOptionsList A list of polyline options objects that defines how to render the polylines.
    * @return A list of the {@code Polyline}s that were added to the map.
    */
+  @UiThread
   @NonNull
   public List<Polyline> addPolylines(@NonNull List<PolylineOptions> polylineOptionsList) {
     return annotationManager.addPolylines(polylineOptionsList, this);
@@ -1277,6 +1269,7 @@ public final class MapboxMap {
    *
    * @param polyline An updated polyline object.
    */
+  @UiThread
   public void updatePolyline(Polyline polyline) {
     annotationManager.updatePolyline(polyline);
   }
@@ -1287,6 +1280,7 @@ public final class MapboxMap {
    * @param polygonOptions A polygon options object that defines how to render the polygon.
    * @return The {@code Polygon} that was added to the map.
    */
+  @UiThread
   @NonNull
   public Polygon addPolygon(@NonNull PolygonOptions polygonOptions) {
     return annotationManager.addPolygon(polygonOptions, this);
@@ -1298,6 +1292,7 @@ public final class MapboxMap {
    * @param polygonOptionsList A list of polygon options objects that defines how to render the polygons
    * @return A list of the {@code Polygon}s that were added to the map
    */
+  @UiThread
   @NonNull
   public List<Polygon> addPolygons(@NonNull List<PolygonOptions> polygonOptionsList) {
     return annotationManager.addPolygons(polygonOptionsList, this);
@@ -1308,6 +1303,7 @@ public final class MapboxMap {
    *
    * @param polygon An updated polygon object
    */
+  @UiThread
   public void updatePolygon(Polygon polygon) {
     annotationManager.updatePolygon(polygon);
   }
@@ -1320,6 +1316,7 @@ public final class MapboxMap {
    *
    * @param marker Marker to remove
    */
+  @UiThread
   public void removeMarker(@NonNull Marker marker) {
     annotationManager.removeAnnotation(marker);
   }
@@ -1332,6 +1329,7 @@ public final class MapboxMap {
    *
    * @param polyline Polyline to remove
    */
+  @UiThread
   public void removePolyline(@NonNull Polyline polyline) {
     annotationManager.removeAnnotation(polyline);
   }
@@ -1344,6 +1342,7 @@ public final class MapboxMap {
    *
    * @param polygon Polygon to remove
    */
+  @UiThread
   public void removePolygon(@NonNull Polygon polygon) {
     annotationManager.removeAnnotation(polygon);
   }
@@ -1353,6 +1352,7 @@ public final class MapboxMap {
    *
    * @param annotation The annotation object to remove.
    */
+  @UiThread
   public void removeAnnotation(@NonNull Annotation annotation) {
     annotationManager.removeAnnotation(annotation);
   }
@@ -1362,6 +1362,7 @@ public final class MapboxMap {
    *
    * @param id The identifier associated to the annotation to be removed
    */
+  @UiThread
   public void removeAnnotation(long id) {
     annotationManager.removeAnnotation(id);
   }
@@ -1371,6 +1372,7 @@ public final class MapboxMap {
    *
    * @param annotationList A list of annotation objects to remove.
    */
+  @UiThread
   public void removeAnnotations(@NonNull List<? extends Annotation> annotationList) {
     annotationManager.removeAnnotations(annotationList);
   }
@@ -1378,6 +1380,7 @@ public final class MapboxMap {
   /**
    * Removes all annotations from the map.
    */
+  @UiThread
   public void removeAnnotations() {
     annotationManager.removeAnnotations();
   }
@@ -1385,6 +1388,7 @@ public final class MapboxMap {
   /**
    * Removes all markers, polylines, polygons, overlays, etc from the map.
    */
+  @UiThread
   public void clear() {
     annotationManager.removeAnnotations();
   }
@@ -1450,6 +1454,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user clicks on a marker.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnMarkerClickListener(@Nullable OnMarkerClickListener listener) {
     annotationManager.setOnMarkerClickListener(listener);
   }
@@ -1460,6 +1465,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user clicks on a polygon.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnPolygonClickListener(@Nullable OnPolygonClickListener listener) {
     annotationManager.setOnPolygonClickListener(listener);
   }
@@ -1470,6 +1476,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user clicks on a polyline.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnPolylineClickListener(@Nullable OnPolylineClickListener listener) {
     annotationManager.setOnPolylineClickListener(listener);
   }
@@ -1484,6 +1491,7 @@ public final class MapboxMap {
    *
    * @param marker The marker to select.
    */
+  @UiThread
   public void selectMarker(@NonNull Marker marker) {
     if (marker == null) {
       Timber.w("marker was null, so just returning");
@@ -1495,6 +1503,7 @@ public final class MapboxMap {
   /**
    * Deselects any currently selected marker. All markers will have it's info window closed.
    */
+  @UiThread
   public void deselectMarkers() {
     annotationManager.deselectMarkers();
   }
@@ -1504,6 +1513,7 @@ public final class MapboxMap {
    *
    * @param marker the marker to deselect
    */
+  @UiThread
   public void deselectMarker(@NonNull Marker marker) {
     annotationManager.deselectMarker(marker);
   }
@@ -1513,6 +1523,7 @@ public final class MapboxMap {
    *
    * @return The currently selected marker.
    */
+  @UiThread
   public List<Marker> getSelectedMarkers() {
     return annotationManager.getSelectedMarkers();
   }
@@ -1540,6 +1551,7 @@ public final class MapboxMap {
    * @param infoWindowAdapter The callback to be invoked when an info window will be shown.
    *                          To unset the callback, use null.
    */
+  @UiThread
   public void setInfoWindowAdapter(@Nullable InfoWindowAdapter infoWindowAdapter) {
     annotationManager.getInfoWindowManager().setInfoWindowAdapter(infoWindowAdapter);
   }
@@ -1549,6 +1561,7 @@ public final class MapboxMap {
    *
    * @return The callback to be invoked when an info window will be shown.
    */
+  @UiThread
   @Nullable
   public InfoWindowAdapter getInfoWindowAdapter() {
     return annotationManager.getInfoWindowManager().getInfoWindowAdapter();
@@ -1559,6 +1572,7 @@ public final class MapboxMap {
    *
    * @param allow If true, map allows concurrent multiple infowindows to be shown.
    */
+  @UiThread
   public void setAllowConcurrentMultipleOpenInfoWindows(boolean allow) {
     annotationManager.getInfoWindowManager().setAllowConcurrentMultipleOpenInfoWindows(allow);
   }
@@ -1568,6 +1582,7 @@ public final class MapboxMap {
    *
    * @return If true, map allows concurrent multiple infowindows to be shown.
    */
+  @UiThread
   public boolean isAllowConcurrentMultipleOpenInfoWindows() {
     return annotationManager.getInfoWindowManager().isAllowConcurrentMultipleOpenInfoWindows();
   }
@@ -1661,6 +1676,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked on every camera change position.
    *                 To unset the callback, use null.
    */
+  @UiThread
   @Deprecated
   public void setOnCameraChangeListener(@Nullable OnCameraChangeListener listener) {
     transform.setOnCameraChangeListener(listener);
@@ -1671,6 +1687,7 @@ public final class MapboxMap {
    *
    * @param listener the listener to notify
    */
+  @UiThread
   public void setOnCameraIdleListener(@Nullable OnCameraIdleListener listener) {
     cameraChangeDispatcher.setOnCameraIdleListener(listener);
   }
@@ -1680,6 +1697,7 @@ public final class MapboxMap {
    *
    * @param listener the listener to notify
    */
+  @UiThread
   public void setOnCameraMoveCancelListener(@Nullable OnCameraMoveCanceledListener listener) {
     cameraChangeDispatcher.setOnCameraMoveCanceledListener(listener);
   }
@@ -1689,6 +1707,7 @@ public final class MapboxMap {
    *
    * @param listener the listener to notify
    */
+  @UiThread
   public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener listener) {
     cameraChangeDispatcher.setOnCameraMoveStartedListener(listener);
   }
@@ -1698,6 +1717,7 @@ public final class MapboxMap {
    *
    * @param listener the listener to notify
    */
+  @UiThread
   public void setOnCameraMoveListener(@Nullable OnCameraMoveListener listener) {
     cameraChangeDispatcher.setOnCameraMoveListener(listener);
   }
@@ -1708,6 +1728,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked on every frame rendered to the map view.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnFpsChangedListener(@Nullable OnFpsChangedListener listener) {
     onFpsChangedListener = listener;
   }
@@ -1723,6 +1744,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the map is scrolled.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnScrollListener(@Nullable OnScrollListener listener) {
     onRegisterTouchListener.onRegisterScrollListener(listener);
   }
@@ -1733,6 +1755,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the map is flinged.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnFlingListener(@Nullable OnFlingListener listener) {
     onRegisterTouchListener.onRegisterFlingListener(listener);
   }
@@ -1743,6 +1766,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user clicks on the map view.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnMapClickListener(@Nullable OnMapClickListener listener) {
     onRegisterTouchListener.onRegisterMapClickListener(listener);
   }
@@ -1753,6 +1777,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user long clicks on the map view.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnMapLongClickListener(@Nullable OnMapLongClickListener listener) {
     onRegisterTouchListener.onRegisterMapLongClickListener(listener);
   }
@@ -1763,6 +1788,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when the user clicks on an info window.
    *                 To unset the callback, use null.
    */
+  @UiThread
   public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener listener) {
     annotationManager.getInfoWindowManager().setOnInfoWindowClickListener(listener);
   }
@@ -1772,6 +1798,7 @@ public final class MapboxMap {
    *
    * @return Current active InfoWindow Click Listener
    */
+  @UiThread
   public OnInfoWindowClickListener getOnInfoWindowClickListener() {
     return annotationManager.getInfoWindowManager().getOnInfoWindowClickListener();
   }
@@ -1782,6 +1809,7 @@ public final class MapboxMap {
    * @param listener The callback that's invoked when a marker's info window is long pressed. To unset the callback,
    *                 use null.
    */
+  @UiThread
   public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener
                                                  listener) {
     annotationManager.getInfoWindowManager().setOnInfoWindowLongClickListener(listener);
@@ -1810,6 +1838,7 @@ public final class MapboxMap {
    *
    * @return Current active InfoWindow Close Listener
    */
+  @UiThread
   public OnInfoWindowCloseListener getOnInfoWindowCloseListener() {
     return annotationManager.getInfoWindowManager().getOnInfoWindowCloseListener();
   }
@@ -1822,10 +1851,8 @@ public final class MapboxMap {
    * Returns the status of the my-location layer.
    *
    * @return True if the my-location layer is enabled, false otherwise.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public boolean isMyLocationEnabled() {
     return trackingSettings.isMyLocationEnabled();
   }
@@ -1840,10 +1867,8 @@ public final class MapboxMap {
    * android.Manifest.permission#ACCESS_COARSE_LOCATION or android.Manifest.permission#ACCESS_FINE_LOCATION.
    *
    * @param enabled True to enable; false to disable.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public void setMyLocationEnabled(boolean enabled) {
     trackingSettings.setMyLocationEnabled(enabled);
   }
@@ -1852,11 +1877,9 @@ public final class MapboxMap {
    * Returns the currently displayed user location, or null if there is no location data available.
    *
    * @return The currently displayed user location.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
+  @UiThread
   @Nullable
-  @Deprecated
   public Location getMyLocation() {
     return trackingSettings.getMyLocation();
   }
@@ -1867,10 +1890,8 @@ public final class MapboxMap {
    *
    * @param listener The callback that's invoked when the user clicks on a marker.
    *                 To unset the callback, use null.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public void setOnMyLocationChangeListener(@Nullable MapboxMap.OnMyLocationChangeListener
                                               listener) {
     trackingSettings.setOnMyLocationChangeListener(listener);
@@ -1880,10 +1901,8 @@ public final class MapboxMap {
    * Replaces the location source of the my-location layer.
    *
    * @param locationSource A {@link LocationEngine} location source to use in the my-location layer.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public void setLocationSource(@Nullable LocationEngine locationSource) {
     trackingSettings.setLocationSource(locationSource);
   }
@@ -1893,10 +1912,8 @@ public final class MapboxMap {
    *
    * @param listener The callback that's invoked when the location tracking mode changes.
    *                 To unset the callback, use null.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public void setOnMyLocationTrackingModeChangeListener(
     @Nullable MapboxMap.OnMyLocationTrackingModeChangeListener listener) {
     trackingSettings.setOnMyLocationTrackingModeChangeListener(listener);
@@ -1907,10 +1924,8 @@ public final class MapboxMap {
    *
    * @param listener The callback that's invoked when the bearing tracking mode changes.
    *                 To unset the callback, use null.
-   * @deprecated use location layer plugin from
-   * https://github.com/mapbox/mapbox-plugins-android/tree/master/plugins/locationlayer instead.
    */
-  @Deprecated
+  @UiThread
   public void setOnMyBearingTrackingModeChangeListener(@Nullable OnMyBearingTrackingModeChangeListener listener) {
     trackingSettings.setOnMyBearingTrackingModeChangeListener(listener);
   }
@@ -1924,6 +1939,7 @@ public final class MapboxMap {
    *
    * @param callback Callback method invoked when the snapshot is taken.
    */
+  @UiThread
   public void snapshot(@NonNull SnapshotReadyCallback callback) {
     nativeMapView.addSnapshotCallback(callback);
   }
@@ -1935,6 +1951,7 @@ public final class MapboxMap {
    * @param layerIds    optionally - only query these layers
    * @return the list of feature
    */
+  @UiThread
   @NonNull
   public List<Feature> queryRenderedFeatures(@NonNull PointF coordinates, @Nullable String...
     layerIds) {
@@ -1949,6 +1966,7 @@ public final class MapboxMap {
    * @param layerIds    optionally - only query these layers
    * @return the list of feature
    */
+  @UiThread
   @NonNull
   public List<Feature> queryRenderedFeatures(@NonNull PointF coordinates,
                                              @Nullable Filter.Statement filter,
@@ -1963,6 +1981,7 @@ public final class MapboxMap {
    * @param layerIds    optionally - only query these layers
    * @return the list of feature
    */
+  @UiThread
   @NonNull
   public List<Feature> queryRenderedFeatures(@NonNull RectF coordinates,
                                              @Nullable String... layerIds) {
@@ -1977,6 +1996,7 @@ public final class MapboxMap {
    * @param layerIds    optionally - only query these layers
    * @return the list of feature
    */
+  @UiThread
   @NonNull
   public List<Feature> queryRenderedFeatures(@NonNull RectF coordinates,
                                              @Nullable Filter.Statement filter,
