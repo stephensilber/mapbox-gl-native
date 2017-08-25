@@ -702,6 +702,11 @@ void Map::Impl::onUpdate(Update flags) {
         annotationManager.updateData();
     }
 
+    // Ignore incomplete style rendering in still mode.
+    if (mode == MapMode::Still && !style->impl->isLoaded()) {
+        return;
+    }
+
     UpdateParameters params = {
         style->impl->isLoaded(),
         mode,
